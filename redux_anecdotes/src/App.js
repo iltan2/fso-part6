@@ -4,8 +4,16 @@ const App = () => {
   const anecdotes = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  const addVote = (id) => {
+    return {
+      type: "VOTE",
+      payload: { id: id },
+    };
+  };
+
   const vote = (id) => {
     console.log("vote", id);
+    dispatch(addVote(id));
   };
 
   return (
