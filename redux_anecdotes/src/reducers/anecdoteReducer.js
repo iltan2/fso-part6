@@ -17,6 +17,13 @@ const asObject = (anecdote) => {
   };
 };
 
+export const addVote = (id) => {
+  return {
+    type: "VOTE",
+    payload: { id: id },
+  };
+};
+
 export const createNote = (content) => {
   return {
     type: "NEW_NOTE",
