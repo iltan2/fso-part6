@@ -4,12 +4,13 @@ import { setNotification } from "../reducers/notificationReducer";
 
 const Notification = () => {
   const dispatch = useDispatch();
-  const notification = useSelector((state) => state.notification);
+  const notification = useSelector((state) => state.notification.message);
+  const timeoutSecs = useSelector((state) => state.notification.timeoutSecs);
   useEffect(() => {
     setTimeout(() => {
       dispatch(setNotification(""));
-    }, 5000);
-  }, [notification, dispatch]);
+    }, timeoutSecs * 1000);
+  }, [notification, timeoutSecs, dispatch]);
   const style = {
     border: "solid",
     padding: 10,

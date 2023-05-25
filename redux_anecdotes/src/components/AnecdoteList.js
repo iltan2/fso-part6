@@ -13,7 +13,7 @@ export default function AnecdoteList() {
   const vote = (anecdote) => {
     const id = anecdote.id;
     dispatch(addVote(id));
-    dispatch(setNotification(`you voted for ${anecdote.content}`));
+    dispatch(setNotification(`you voted for ${anecdote.content}`, 5));
   };
 
   const sortedAnecdotes = [...anecdotes];

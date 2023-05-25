@@ -9,7 +9,7 @@ export default function AnecdoteForm() {
     const content = event.target.anecdote.value;
     event.target.anecdote.value = "";
     dispatch(createNote(content));
-    dispatch(setNotification("New note created!"));
+    dispatch(setNotification("New note created!", 5));
   };
 
   return (
