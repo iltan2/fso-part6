@@ -28,7 +28,9 @@ const App = () => {
     updateAnecdoteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 });
   };
 
-  const result = useQuery("anecdotes", getAnecdotes);
+  const result = useQuery("anecdotes", getAnecdotes, {
+    refetchOnWindowFocus: false,
+  });
 
   if (result.isLoading) {
     return <div>loading data...</div>;
