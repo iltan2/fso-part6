@@ -1,25 +1,40 @@
-import { useQuery } from "react-query";
-import { getAnecdotes } from "./requests";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { getAnecdotes, updateAnecdote } from "./requests";
 
 import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
 
 const App = () => {
+  const queryClient = useQueryClient();
+
+  const updateAnecdoteMutation = useMutation(updateAnecdote, {
+    onSuccess: (response) => {
+      queryClient.invalidateQueries("anecdotes");
+      const anecdotes = queryClient.getQueryData("anecdotes");
+      const idxToUpdate = anecdotes.findIndex(
+        (anecdote) => anecdote.id === response.id
+      );
+      const newAnecdotes = [...anecdotes];
+      newAnecdotes[idxToUpdate] = {
+        ...anecdotes[idxToUpdate],
+        votes: anecdotes[idxToUpdate].votes + 1,
+      };
+
+      queryClient.setQueryData("anecdotes", newAnecdotes);
+    },
+  });
+
   const handleVote = (anecdote) => {
-    console.log("vote");
+    updateAnecdoteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 });
   };
 
   const result = useQuery("anecdotes", getAnecdotes);
-  console.log(result);
 
   if (result.isLoading) {
     return <div>loading data...</div>;
   } else if (result.isError) {
     return <div>anecdote service not available due to problems in server</div>;
   }
-
-  console.log("result now is:", result);
-  console.log("result.data now is:", result.data);
   const anecdotes = result.data;
 
   return (
