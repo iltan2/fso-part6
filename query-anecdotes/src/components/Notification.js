@@ -15,10 +15,12 @@ const Notification = () => {
   const notifValue = useNotificationValue();
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch({ item: "" });
-    }, 5000);
-  }, [dispatch]);
+    if (notifValue !== "") {
+      setTimeout(() => {
+        dispatch({ item: "" });
+      }, 5000);
+    }
+  }, [dispatch, notifValue]);
 
   return <div style={style}>{notifValue}</div>;
 };
